@@ -1,3 +1,5 @@
+# Hi Ethan!
+
 # Imports necessary libraries
 import pygame
 from pygame.locals import *
