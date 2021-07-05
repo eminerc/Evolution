@@ -148,15 +148,15 @@ class Cell:
         elif self.reproduction_rate > 191.25 and self.reproduction_rate <= 255:
             food_limit = 2
         if self.food_count >= food_limit:
-            m_chance = random.randint(1, 4)
+            m_chance = random.randint(0, 3)
             new_speed = 0
             # = 0
             #if new_speed <= 50 or new_speed
             change = random.randint(1, 50)
-            if m_chance == 1 or m_chance == 2:
+            if m_chance == 1:
                 new_speed = self.speed
                 new_s = self.s_radius
-            elif m_chance == 3:
+            elif m_chance == 2:
                 y = True
                 while y:
                     new_speed = self.speed + change
@@ -165,7 +165,7 @@ class Cell:
                         y = False
                     else:
                         change -= 1
-            elif m_chance == 4:
+            elif m_chance == 3:
                 y = True
                 while y:
                     new_speed = self.speed - change
@@ -175,26 +175,23 @@ class Cell:
                     else:
                         change -= 1
 
-            m_chance = random.randint(0, 4)
+            m_chance = random.randint(0, 3)
             change = random.randint(1, 50)
-            if m_chance == 0:
-                print("hi")
+            if m_chance == 1:
                 new_p = self.p_radius
                 new_rr = self.reproduction_rate
-            elif m_chance == 3:
+            elif m_chance == 2:
                 y = True
                 while y:
-                    print("hi")
                     new_p = self.p_radius + change
                     new_rr = self.reproduction_rate - change
                     if new_p >= 0 and new_p <= 255 and new_rr >= 0 and new_rr <= 255:
                         y = False
                     else:
                         change -= 1
-            elif m_chance == 4:
+            elif m_chance == 3:
                 y = True
                 while y:
-                    print("hi")
                     new_p = self.speed + change
                     new_rr = self.s_radius - change
                     if new_p >= 0 and new_p <= 255 and new_rr >= 0 and new_rr <= 255:
