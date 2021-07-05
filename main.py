@@ -148,15 +148,15 @@ class Cell:
         elif self.reproduction_rate > 191.25 and self.reproduction_rate <= 255:
             food_limit = 2
         if self.food_count >= food_limit:
-            m_chance = random.randint(0, 3)
+            m_chance = random.randint(0, 2)
             new_speed = 0
             # = 0
             #if new_speed <= 50 or new_speed
             change = random.randint(1, 50)
-            if m_chance == 1:
+            if m_chance == 0:
                 new_speed = self.speed
                 new_s = self.s_radius
-            elif m_chance == 2:
+            elif m_chance == 1:
                 y = True
                 while y:
                     new_speed = self.speed + change
@@ -165,7 +165,7 @@ class Cell:
                         y = False
                     else:
                         change -= 1
-            elif m_chance == 3:
+            elif m_chance == 2:
                 y = True
                 while y:
                     new_speed = self.speed - change
@@ -175,12 +175,12 @@ class Cell:
                     else:
                         change -= 1
 
-            m_chance = random.randint(0, 3)
+            m_chance = random.randint(0, 2)
             change = random.randint(1, 50)
-            if m_chance == 1:
+            if m_chance == 0:
                 new_p = self.p_radius
                 new_rr = self.reproduction_rate
-            elif m_chance == 2:
+            elif m_chance == 1:
                 y = True
                 while y:
                     new_p = self.p_radius + change
@@ -189,7 +189,7 @@ class Cell:
                         y = False
                     else:
                         change -= 1
-            elif m_chance == 3:
+            elif m_chance == 2:
                 y = True
                 while y:
                     new_p = self.speed + change
