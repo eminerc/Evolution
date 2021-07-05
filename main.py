@@ -77,7 +77,6 @@ class Cell:
                         self.x_goal = self.memory[0][0]
                         self.y_goal = self.memory[0][1]
                     else:
-                        print(self.memory)
                         self.x_goal = random.randint(1, 799)
                         self.y_goal = random.randint(1, 799)
                 for i in food:
