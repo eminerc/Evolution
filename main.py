@@ -77,6 +77,7 @@ class Cell:
                         self.x_goal = self.memory[0][0]
                         self.y_goal = self.memory[0][1]
                     else:
+                        print(self.memory)
                         self.x_goal = random.randint(1, 799)
                         self.y_goal = random.randint(1, 799)
                 for i in food:
@@ -92,9 +93,6 @@ class Cell:
                 for i in self.memory:
                     pygame.draw.circle(WIN, (0, 0, 255), (i[0], i[1]), 10, 1)
                     pygame.draw.line(WIN, (0, 0, 255), [i[0], i[1]], [self.x_cell, self.y_cell], 1)
-                if self.x_cell == self.x_goal and self.y_cell == self.y_goal:
-                    self.x_goal = random.randint(1, 799)
-                    self.y_goal = random.randint(1, 799)
                 for i in food:
                     df.append([math.sqrt((i.x_food - self.x_cell) ** 2 + (i.y_food - self.y_cell) ** 2), i])
                 df = sorted(df, key=lambda x: x[0])
