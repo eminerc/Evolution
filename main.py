@@ -95,9 +95,10 @@ class Cell:
                 for i in food:
                     df.append([math.sqrt((i.x_food - self.x_cell) ** 2 + (i.y_food - self.y_cell) ** 2), i])
                 df = sorted(df, key=lambda x: x[0])
-                if df[0][0] < self.p_radius + (self.s_radius * 20 / 255):
-                    self.x_goal = df[0][1].x_food
-                    self.y_goal = df[0][1].y_food
+                if len(df) > 0:
+                    if df[0][0] < self.p_radius + (self.s_radius * 20 / 255):
+                        self.x_goal = df[0][1].x_food
+                        self.y_goal = df[0][1].y_food
                 if math.sqrt((self.x_goal - self.x_cell) ** 2 + (self.y_goal - self.y_cell) ** 2) <= (
                         self.speed / 700):
                     self.x_cell = self.x_goal
