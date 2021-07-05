@@ -1,5 +1,3 @@
-# Hi Ethan!
-
 # Imports necessary libraries
 import pygame
 from pygame.locals import *
@@ -23,7 +21,7 @@ food = []
 # Classes for food and cells
 class Cell:
     def __init__(self, speed, s_radius, p_radius, reproduction_rate, x_cell, y_cell, x_goal, y_goal, anger, food_count,
-                 c_num, cell_state, family, life_time):
+                 c_num, cell_state, family, life_time, memory):
         self.life_time = life_time
         self.family = family
         self.c_num = c_num
@@ -39,6 +37,7 @@ class Cell:
         self.y_goal = y_goal
         self.color = (family * 20, s_radius, p_radius)
         self.reproduction_rate = reproduction_rate
+        self.memory = memory
 
     def draw_cell(self):
         pygame.draw.circle(WIN, (100, 100, 255), (self.x_cell, self.y_cell), self.p_radius + (self.s_radius * 20 / 255),
@@ -56,7 +55,7 @@ class Cell:
             dc = sorted(dc, key=lambda x: x[0])
             if len(dc) > 0 and dc[0][0] < 20 + (self.s_radius * 20 / 255) and dc[0][1].s_radius >= self.s_radius:
                 x_e, y_e = dc[0][1].x_cell, dc[0][1].y_cell
-                x_egoal, y_egoal = dc[0][1].x_goal, dc[0][1].y_goal
+                x_goal, y_goal = dc[0][1].x_goal, dc[0][1].y_goal
                 if (aggression == 0 and dc[0][1].family != self.family):
                     self.cell_state = 0
                 else:
@@ -70,6 +69,30 @@ class Cell:
             else:
                 df = []
                 if self.x_cell == self.x_goal and self.y_cell == self.y_goal:
+                    if len(self.memory) > 0:
+                        for i in range(len(self.memory)):
+                            self.memory[i][2] = math.sqrt(
+                                (self.memory[i][0] - self.x_cell) ** 2 + (self.memory[i][1] - self.y_cell) ** 2)
+                        self.memory = sorted(self.memory, key=lambda x: x[2])
+                        self.x_goal = self.memory[0][0]
+                        self.y_goal = self.memory[0][1]
+                    else:
+                        self.x_goal = random.randint(1, 799)
+                        self.y_goal = random.randint(1, 799)
+                for i in food:
+                    df.append([math.sqrt((i.x_food - self.x_cell) ** 2 + (i.y_food - self.y_cell) ** 2), i])
+                for i in self.memory[:]:
+                    if math.sqrt((i[0] - self.x_cell) ** 2 + (i[1] - self.y_cell) ** 2) <= self.p_radius + (
+                            self.s_radius * 20 / 255):
+                        self.memory.remove(i)
+                for i in df:
+                    if i[0] <= self.p_radius + (self.s_radius * 20 / 255):
+                        self.memory.append([i[1].x_food, i[1].y_food, 0])
+                df = sorted(df, key=lambda x: x[0])
+                for i in self.memory:
+                    pygame.draw.circle(WIN, (0, 0, 255), (i[0], i[1]), 10, 1)
+                    pygame.draw.line(WIN, (0, 0, 255), [i[0], i[1]], [self.x_cell, self.y_cell], 1)
+                if self.x_cell == self.x_goal and self.y_cell == self.y_goal:
                     self.x_goal = random.randint(1, 799)
                     self.y_goal = random.randint(1, 799)
                 for i in food:
@@ -79,7 +102,7 @@ class Cell:
                     self.x_goal = df[0][1].x_food
                     self.y_goal = df[0][1].y_food
                 if math.sqrt((self.x_goal - self.x_cell) ** 2 + (self.y_goal - self.y_cell) ** 2) <= (
-                        self.speed / 1000):
+                        self.speed / 700):
                     self.x_cell = self.x_goal
                     self.y_cell = self.y_goal
                     for i in food:
@@ -90,14 +113,14 @@ class Cell:
         def go_goal():
             if self.x_cell == self.x_goal:
                 if self.y_goal < self.y_cell:
-                    self.y_cell -= (self.speed / 1000)
+                    self.y_cell -= (self.speed / 700)
                 if self.y_goal > self.y_cell:
-                    self.y_cell += (self.speed / 1000)
+                    self.y_cell += (self.speed / 700)
             try:
                 slope = ((self.y_cell - self.y_goal) / (self.x_cell - self.x_goal))
             except:
                 slope = ((self.y_cell - self.y_goal) / (0.000000000000000000000000001))
-            motion = (self.speed / 1000) / math.sqrt(1 + slope * slope)
+            motion = (self.speed / 700) / math.sqrt(1 + slope * slope)
             if math.sqrt(math.pow(self.x_cell - self.x_goal, 2) + math.pow(self.y_cell - self.y_goal, 2)) > math.sqrt(
                     math.pow(self.x_cell + motion - self.x_goal, 2) + math.pow(
                         self.y_cell + motion * slope - self.y_goal,
@@ -124,48 +147,68 @@ class Cell:
             food_limit = 3
         elif self.reproduction_rate > 191.25 and self.reproduction_rate <= 255:
             food_limit = 2
-
-        # 0 = no change
-        # 1 = increase
-        # 2 = decrease
-        y = True
         if self.food_count >= food_limit:
-            while y:
-                m_chance = random.randint(1, 4)
-                change = random.randint(1, 50)
-                if m_chance == 1 or m_chance == 2:
-                    new_speed = self.speed
-                    new_s = self.s_radius
-                elif m_chance == 3:
+            m_chance = random.randint(1, 4)
+            new_speed = 0
+            # = 0
+            #if new_speed <= 50 or new_speed
+            change = random.randint(1, 50)
+            if m_chance == 1 or m_chance == 2:
+                new_speed = self.speed
+                new_s = self.s_radius
+            elif m_chance == 3:
+                y = True
+                while y:
                     new_speed = self.speed + change
                     new_s = self.s_radius - change
-                elif m_chance == 4:
+                    if new_speed >= 0 and new_speed <= 255 and new_s >= 0 and new_s <= 255:
+                        y = False
+                    else:
+                        change -= 1
+            elif m_chance == 4:
+                y = True
+                while y:
                     new_speed = self.speed - change
                     new_s = self.s_radius + change
+                    if new_speed >= 0 and new_speed <= 255 and new_s >= 0 and new_s <= 255:
+                        y = False
+                    else:
+                        change -= 1
 
-                m_chance = random.randint(0, 4)
-                change = random.randint(1, 50)
-                if m_chance == 0:
-                    new_p = self.p_radius
-                    new_rr = self.reproduction_rate
-                elif m_chance == 3:
+            m_chance = random.randint(0, 4)
+            change = random.randint(1, 50)
+            if m_chance == 0:
+                print("hi")
+                new_p = self.p_radius
+                new_rr = self.reproduction_rate
+            elif m_chance == 3:
+                y = True
+                while y:
+                    print("hi")
                     new_p = self.p_radius + change
                     new_rr = self.reproduction_rate - change
-                elif m_chance == 4:
-                    new_p = self.p_radius - change
-                    new_rr = self.reproduction_rate + change
-
-            if new_speed >= 0 and new_speed <= 255 and new_s >= 0 and new_s <= 255 and new_p >= 0 and new_p <= 255 and new_rr >= 0 and new_rr <= 255:
-                y = False
+                    if new_p >= 0 and new_p <= 255 and new_rr >= 0 and new_rr <= 255:
+                        y = False
+                    else:
+                        change -= 1
+            elif m_chance == 4:
+                y = True
+                while y:
+                    print("hi")
+                    new_p = self.speed + change
+                    new_rr = self.s_radius - change
+                    if new_p >= 0 and new_p <= 255 and new_rr >= 0 and new_rr <= 255:
+                        y = False
+                    else:
+                        change -= 1
 
             new_x = self.x_cell + 5
             new_y = self.y_cell + 5
             new_family = self.family
 
             cells.append(
-                Cell(new_speed, new_s, new_p, new_rr, new_x, new_y, random.randint(0, 800), random.randint(0, 800), 30,
-                     0, 1,
-                     1, new_family, 0))
+                Cell(new_speed, new_s, new_p, new_rr, new_x, new_y, random.randint(0, 800), random.randint(0, 800), 30,0, 1,
+                     1, new_family, 0, []))
 
             self.c_num += 1
             self.food_count = 0
@@ -198,7 +241,7 @@ def main():
         cells.append(
 
             Cell(63.75, 63.75, 63.75, 63.75, random.randint(20, 722), random.randint(20, 722), random.randint(20, 722),
-                 random.randint(20, 722), 30, 0, 0, 1, family_num, 0))
+                 random.randint(20, 722), 30, 0, 0, 1, family_num, 0, []))
 
     time_count = 0
 
@@ -258,4 +301,5 @@ def main_menu():
                 main()
     pygame.quit()
 main_menu()
+
 
