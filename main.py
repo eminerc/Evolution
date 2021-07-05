@@ -219,7 +219,7 @@ class Food:
 
 # Functions
 def generate_food():
-    new_food = 30 - len(food)
+    new_food = 50 - len(food)
     for x in range(new_food):
         food.append(Food(random.randint(1, 799), random.randint(1, 799)))
 
