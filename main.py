@@ -7,7 +7,7 @@ import time
 
 # Window setup & global variables
 pygame.init()
-WIDTH, HEIGHT = 800, 800
+WIDTH, HEIGHT = 1500, 800
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Evolution')
 background = pygame.Surface(WIN.get_size())
@@ -77,8 +77,8 @@ class Cell:
                         self.x_goal = self.memory[0][0]
                         self.y_goal = self.memory[0][1]
                     else:
-                        self.x_goal = random.randint(1, 799)
-                        self.y_goal = random.randint(1, 799)
+                        self.x_goal = random.randint(1, WIDTH)
+                        self.y_goal = random.randint(1, HEIGHT)
                 for i in food:
                     df.append([math.sqrt((i.x_food - self.x_cell) ** 2 + (i.y_food - self.y_cell) ** 2), i])
                 for i in self.memory[:]:
@@ -148,7 +148,8 @@ class Cell:
         if self.food_count >= food_limit:
             m_chance = random.randint(0, 2)
             new_speed = 0
-
+            # = 0
+            #if new_speed <= 50 or new_speed
             change = random.randint(1, 25)
             if m_chance == 0:
                 new_speed = self.speed
@@ -201,7 +202,7 @@ class Cell:
             new_family = self.family
 
             cells.append(
-                Cell(new_speed, new_s, new_p, new_rr, new_x, new_y, random.randint(0, 800), random.randint(0, 800), 30,0, 1,
+                Cell(new_speed, new_s, new_p, new_rr, new_x, new_y, random.randint(0, WIDTH), random.randint(0, HEIGHT), 30, 0, 1,
                      1, new_family, 0, []))
 
             self.c_num += 1
@@ -219,9 +220,9 @@ class Food:
 
 # Functions
 def generate_food():
-    new_food = 35 - len(food)
+    new_food = 30 - len(food)
     for x in range(new_food):
-        food.append(Food(random.randint(1, 799), random.randint(1, 799)))
+        food.append(Food(random.randint(1, WIDTH), random.randint(1, HEIGHT)))
 
 
 # Main and menu functions
@@ -234,8 +235,8 @@ def main():
         family_num += 1
         cells.append(
 
-            Cell(63.75, 63.75, 63.75, 63.75, random.randint(20, 722), random.randint(20, 722), random.randint(20, 722),
-                 random.randint(20, 722), 30, 0, 0, 1, family_num, 0, []))
+            Cell(63.75, 63.75, 63.75, 63.75, random.randint(1, WIDTH), random.randint(1, HEIGHT), random.randint(1, WIDTH),
+                 random.randint(1, HEIGHT), 30, 0, 0, 1, family_num, 0, []))
 
     time_count = 0
 
@@ -295,5 +296,7 @@ def main_menu():
                 main()
     pygame.quit()
 main_menu()
+
+
 
 
