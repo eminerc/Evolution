@@ -148,9 +148,8 @@ class Cell:
         if self.food_count >= food_limit:
             m_chance = random.randint(0, 2)
             new_speed = 0
-            # = 0
-            #if new_speed <= 50 or new_speed
-            change = random.randint(1, 50)
+
+            change = random.randint(1, 25)
             if m_chance == 0:
                 new_speed = self.speed
                 new_s = self.s_radius
@@ -174,7 +173,7 @@ class Cell:
                         change -= 1
 
             m_chance = random.randint(0, 2)
-            change = random.randint(1, 50)
+            change = random.randint(1, 25)
             if m_chance == 0:
                 new_p = self.p_radius
                 new_rr = self.reproduction_rate
@@ -220,7 +219,7 @@ class Food:
 
 # Functions
 def generate_food():
-    new_food = 50 - len(food)
+    new_food = 35 - len(food)
     for x in range(new_food):
         food.append(Food(random.randint(1, 799), random.randint(1, 799)))
 
