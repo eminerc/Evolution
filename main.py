@@ -7,7 +7,7 @@ import time
 
 # Window setup & global variables
 pygame.init()
-WIDTH, HEIGHT = 8/00, 800
+WIDTH, HEIGHT = 800, 800
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Evolution')
 background = pygame.Surface(WIN.get_size())
