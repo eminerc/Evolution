@@ -25,6 +25,10 @@ class Cell:
         self.memory = memory
 
     def draw_cell(self, surface):
+        pygame.draw.line(surface, (100, 255, 100), [self.x_cell, self.y_cell], [self.x_goal, self.y_goal], 1)
+        for i in self.memory:
+            pygame.draw.circle(surface, (0, 0, 255), (i[0], i[1]), 10, 1)
+            pygame.draw.line(surface, (0, 0, 255), [i[0], i[1]], [self.x_cell, self.y_cell], 1)
         pygame.draw.circle(surface, (100, 100, 255), (self.x_cell, self.y_cell), self.p_radius/2 + (self.s_radius * 20 / 510),
                            width=2)
         pygame.draw.circle(surface, (255, 100, 100), (self.x_cell, self.y_cell), 20 + (self.s_radius * 20 / 510), width=2)
@@ -74,9 +78,6 @@ class Cell:
                     if i[0] <= self.p_radius/2 + (self.s_radius * 20 / 510):
                         self.memory.append([i[1].x_food, i[1].y_food, 0])
                 df = sorted(df, key=lambda x: x[0])
-                for i in self.memory:
-                    pygame.draw.circle(surface, (0, 0, 255), (i[0], i[1]), 10, 1)
-                    pygame.draw.line(surface, (0, 0, 255), [i[0], i[1]], [self.x_cell, self.y_cell], 1)
                 for i in food:
                     df.append([math.sqrt((i.x_food - self.x_cell) ** 2 + (i.y_food - self.y_cell) ** 2), i])
                 df = sorted(df, key=lambda x: x[0])
@@ -116,7 +117,6 @@ class Cell:
                         2)):
                 self.x_cell -= motion
                 self.y_cell -= motion * slope
-            pygame.draw.line(surface, (100, 255, 100), [self.x_cell, self.y_cell], [self.x_goal, self.y_goal], 1)
 
         find_goal()
         go_goal()
@@ -133,8 +133,6 @@ class Cell:
         if self.food_count >= food_limit:
             m_chance = random.randint(0, 2)
             new_speed = 0
-            # = 0
-            #if new_speed <= 50 or new_speed
             change = random.randint(1, 55)
             if m_chance == 0:
                 new_speed = self.speed
@@ -191,5 +189,3 @@ class Cell:
 
             self.c_num += 1
             self.food_count = 0
-
-
