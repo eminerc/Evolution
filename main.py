@@ -78,10 +78,10 @@ def main_menu():
     run = True
     while run:
         WIN.blit(background, (0, 0))
-        title_label1 = title_font.render("PRESS ENTER TO RUN", 1, (0, 0, 0))
-        title_label2 = title_font.render("EVOLUTION SIMULATION", 1, (0, 0, 0))
-        WIN.blit(title_label1, (WIDTH / 2 - title_label1.get_width() / 2, 350))
-        WIN.blit(title_label2, (WIDTH / 2 - title_label2.get_width() / 2, 400))
+        title1 = title_font.render("PRESS ENTER TO RUN", 1, (0, 0, 0))
+        title2 = title_font.render("EVOLUTION SIMULATION", 1, (0, 0, 0))
+        WIN.blit(title1, (WIDTH / 2 - title1.get_width() / 2, 350))
+        WIN.blit(title2, (WIDTH / 2 - title2.get_width() / 2, 400))
         pygame.display.update()
 
         for event in pygame.event.get():
