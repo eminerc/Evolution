@@ -40,7 +40,7 @@ def main():
         # Draw background
         WIN.blit(background, (0, 0))
         # Draw text (averages for all traits will get drawn in the left corner of the window)
-        # Draw sprites on the screen
+        # Draw food and cells on the screen
         for i in food:
             i.draw_food(WIN)
         for cell in cells:
