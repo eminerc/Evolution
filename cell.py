@@ -135,7 +135,7 @@ class Cell:
             new_speed = 0
             # = 0
             #if new_speed <= 50 or new_speed
-            change = random.randint(1, 25)
+            change = random.randint(1, 55)
             if m_chance == 0:
                 new_speed = self.speed
                 new_s = self.s_radius
@@ -159,7 +159,7 @@ class Cell:
                         change -= 1
 
             m_chance = random.randint(0, 2)
-            change = random.randint(1, 25)
+            change = random.randint(1, 55)
             if m_chance == 0:
                 new_p = self.p_radius
                 new_rr = self.reproduction_rate
