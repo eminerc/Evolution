@@ -21,7 +21,7 @@ food = []
 
 # Functions
 def generate_food():
-    new_food = 25 - len(food)
+    new_food = 30 - len(food)
     for x in range(new_food):
         food.append(Food(random.randint(1, WIDTH), random.randint(1, HEIGHT)))
 
@@ -29,7 +29,7 @@ def generate_food():
 def main():
     run = True
     generate_food()
-    for x in range(30):
+    for x in range(10):
         cells.append(
             Cell(127.5, 127.5, 127.5, 127.5, random.randint(1, WIDTH), random.randint(1, HEIGHT), random.randint(1, WIDTH),
                  random.randint(1, HEIGHT), 30, 0, 0, 1, 0, []))
