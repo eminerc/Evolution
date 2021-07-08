@@ -79,8 +79,8 @@ def main_menu():
     run = True
     while run:
         WIN.blit(background, (0, 0))
-        title1 = title_font.render("PRESS ENTER TO RUN", 1, (0, 0, 0))
-        title2 = title_font.render("EVOLUTION SIMULATION", 1, (0, 0, 0))
+        title1 = title_font.render("PRESS ENTER TO RUN", 1, (250, 250, 250))
+        title2 = title_font.render("EVOLUTION SIMULATION", 1, (250, 250, 250))
         WIN.blit(title1, (WIDTH / 2 - title1.get_width() / 2, 350))
         WIN.blit(title2, (WIDTH / 2 - title2.get_width() / 2, 400))
         pygame.display.update()
