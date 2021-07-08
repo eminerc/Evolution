@@ -42,6 +42,9 @@ class Cell:
             m = ((p1 + (z1 * -1 * ((self.x_goal - self.x_cell)/(self.y_goal - self.y_cell)))) - self.y_cell) / ((p + z1) - self.x_cell)
             m1 = ((p1 - (z1 * -1 * ((self.x_goal - self.x_cell)/(self.y_goal - self.y_cell)))) - self.y_cell) / ((p - z1) - self.x_cell)
 
+            m = -1 / m
+            m1 = -1 / m1
+
             #print("slopes : " + str(m1) + "  : " + str(m))
 
             z2 = (self.p_radius/2 + (self.s_radius * 20 / 510)) / math.sqrt(1 + m * m)
