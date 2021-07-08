@@ -26,6 +26,28 @@ class Cell:
 
     def draw_cell(self, surface):
         pygame.draw.line(surface, (100, 255, 100), [self.x_cell, self.y_cell], [self.x_goal, self.y_goal], 1)
+
+        k = 500
+
+        if self.y_cell != self.y_goal and self.x_cell != self.x_goal:
+
+            try:
+                z = 1 / math.sqrt(1 + ((self.y_goal - self.y_cell)/(self.x_goal - self.x_cell)) * ((self.y_goal - self.y_cell)/(self.x_goal - self.x_cell)))
+            except:
+                z = 1 / 0.000000000001
+            p = self.x_cell + z
+            p1 = self.y_cell + z * ((self.y_goal - self.y_cell)/(self.x_goal - self.x_cell))
+            z1 = k / math.sqrt(1 + (-1 * ((self.x_goal - self.x_cell)/(self.y_goal - self.y_cell))) * (-1 * ((self.x_goal - self.x_cell)/(self.y_goal - self.y_cell))))
+
+            m = ((p1 + (z1 * -1 * ((self.x_goal - self.x_cell)/(self.y_goal - self.y_cell)))) - self.y_cell) / p + z1 - self.x_cell
+            m1 = ((p1 - (z1 * -1 * ((self.x_goal - self.x_cell)/(self.y_goal - self.y_cell)))) - self.y_cell) / p - z1 - self.x_cell
+
+            z2 = self.p_radius / math.sqrt(1 + m * m)
+            z3 = self.p_radius / math.sqrt(1 + m1 * m1)
+
+            pygame.draw.line(surface, (100, 0, 100), [self.x_cell, self.y_cell], [self.x_cell + m, self.y_cell + m * z2], 1)
+            pygame.draw.line(surface, (100, 0, 100), [self.x_cell, self.y_cell], [self.x_cell + m1, self.y_cell + m1 * z3], 1)
+
         for i in self.memory:
             pygame.draw.circle(surface, (0, 0, 255), (i[0], i[1]), 10, 1)
             pygame.draw.line(surface, (0, 0, 255), [i[0], i[1]], [self.x_cell, self.y_cell], 1)
