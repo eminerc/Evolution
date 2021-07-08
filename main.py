@@ -74,21 +74,57 @@ def main():
                 quit()
 
 
+def settings():
+    setting_font = pygame.font.SysFont("monospace", 20)
+    title_font = pygame.font.SysFont("monospace", 50)
+    button_font = pygame.font.SysFont("monospace", 15)
+    run = True
+    while run:
+        WIN.blit(background, (0, 0))
+        settings_title = title_font.render("SETTINGS", 1, (250, 250, 250))
+        f_num_txt = setting_font.render("Amount of food:", 1, (250, 250, 250))
+        c_num_txt = setting_font.render("Initial amount of cells:", 1, (250, 250, 250))
+        w_set = setting_font.render("Window width:", 1, (250, 250, 250))
+        set_button = button_font.render("menu", 1, (0, 0, 0))
+        WIN.blit(settings_title, (WIDTH/2 - settings_title.get_width()/2, 10))
+        WIN.blit(f_num_txt, (20, 100))
+        WIN.blit(c_num_txt, (20, 200))
+        WIN.blit(w_set, (20, 300))
+        pygame.draw.circle(WIN, (250, 250, 250), (100, 700), 50)
+        mbx = 80
+        mby = 690
+        WIN.blit(set_button, (mbx, mby))
+        pygame.display.update()
+        mousex, mousey = pygame.mouse.get_pos()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                quit()
+            if event.type == pygame.MOUSEBUTTONDOWN and math.sqrt((mousex - mbx) ** 2 + (mousey - mby) ** 2) < 50:
+                main_menu()
+                
 def main_menu():
     title_font = pygame.font.SysFont("monospace", 50)
+    button_font = pygame.font.SysFont("monospace", 15)
     run = True
     while run:
         WIN.blit(background, (0, 0))
         title1 = title_font.render("PRESS ENTER TO RUN", 1, (250, 250, 250))
         title2 = title_font.render("EVOLUTION SIMULATION", 1, (250, 250, 250))
+        set_button = button_font.render("settings", 1, (0, 0, 0))
         WIN.blit(title1, (WIDTH / 2 - title1.get_width() / 2, 350))
         WIN.blit(title2, (WIDTH / 2 - title2.get_width() / 2, 400))
+        pygame.draw.circle(WIN, (250, 250, 250), (100, 700), 50)
+        sbx = 65
+        sby = 690
+        WIN.blit(set_button, (sbx, sby))
         pygame.display.update()
-
+        mousex, mousey = pygame.mouse.get_pos()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.KEYDOWN:
                 main()
+            if event.type == pygame.MOUSEBUTTONDOWN and math.sqrt((mousex - sbx) ** 2 + (mousey - sby) ** 2) < 50:
+                settings()
     pygame.quit()
 main_menu()
