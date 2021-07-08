@@ -8,4 +8,4 @@ class Food:
         self.y_food = y_food
 
     def draw_food(self, surface):
-        pygame.draw.circle(surface, (255, 255, 255), (self.x_food, self.y_food), 5)
+        pygame.draw.circle(surface, (250, 250, 250), (self.x_food, self.y_food), 5)
