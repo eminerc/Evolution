@@ -45,8 +45,8 @@ class Cell:
             z2 = self.p_radius / math.sqrt(1 + m * m)
             z3 = self.p_radius / math.sqrt(1 + m1 * m1)
 
-            pygame.draw.line(surface, (100, 0, 100), [self.x_cell, self.y_cell], [self.x_cell + m, self.y_cell + m * z2], 1)
-            pygame.draw.line(surface, (100, 0, 100), [self.x_cell, self.y_cell], [self.x_cell + m1, self.y_cell + m1 * z3], 1)
+            pygame.draw.line(surface, (125, 0, 125), [self.x_cell, self.y_cell], [self.x_cell + z2, self.y_cell + m * z2], 1)
+            pygame.draw.line(surface, (125, 0, 125), [self.x_cell, self.y_cell], [self.x_cell + z3, self.y_cell + m1 * z3], 1)
 
         for i in self.memory:
             pygame.draw.circle(surface, (0, 0, 255), (i[0], i[1]), 10, 1)
