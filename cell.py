@@ -27,23 +27,20 @@ class Cell:
     def draw_cell(self, surface):
         pygame.draw.line(surface, (100, 255, 100), [self.x_cell, self.y_cell], [self.x_goal, self.y_goal], 1)
 
-        k = 500
+        k = 100
 
         if self.y_cell != self.y_goal and self.x_cell != self.x_goal:
 
             try:
-                z = 10 / math.sqrt(1 + (((self.y_goal - self.y_cell)/(self.x_goal - self.x_cell)) * ((self.y_goal - self.y_cell)/(self.x_goal - self.x_cell))))
+                z = 100 / math.sqrt(1 + (((self.y_goal - self.y_cell)/(self.x_goal - self.x_cell)) * ((self.y_goal - self.y_cell)/(self.x_goal - self.x_cell))))
             except:
-                z = 10 / 0.000000000001
+                z = 100 / 0.000000000001
             p = self.x_cell + z
             p1 = self.y_cell + (z * ((self.y_goal - self.y_cell)/(self.x_goal - self.x_cell)))
             z1 = k / math.sqrt(1 + (-1 * ((self.x_goal - self.x_cell)/(self.y_goal - self.y_cell))) * (-1 * ((self.x_goal - self.x_cell)/(self.y_goal - self.y_cell))))
 
             m = ((p1 + (z1 * -1 * ((self.x_goal - self.x_cell)/(self.y_goal - self.y_cell)))) - self.y_cell) / ((p + z1) - self.x_cell)
             m1 = ((p1 - (z1 * -1 * ((self.x_goal - self.x_cell)/(self.y_goal - self.y_cell)))) - self.y_cell) / ((p - z1) - self.x_cell)
-
-            m = -1 / m
-            m1 = -1 / m1
 
             #print("slopes : " + str(m1) + "  : " + str(m))
 
