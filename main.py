@@ -52,6 +52,7 @@ def main():
                 cell.c_num = 0
                 cell.life_time = 0
             if cell.cell_state == 0:
+                food.append(Food(cell.x_cell, cell.y_cell))
                 cells.remove(cell)
         for cell in cells:
             cell.move(cells, food, WIN, WIDTH, HEIGHT)
