@@ -90,10 +90,10 @@ def settings():
         WIN.blit(f_num_txt, (20, 100))
         WIN.blit(c_num_txt, (20, 200))
         WIN.blit(w_set, (20, 300))
-        pygame.draw.circle(WIN, (250, 250, 250), (100, 700), 50)
-        mbx = 80
-        mby = 690
-        WIN.blit(set_button, (mbx, mby))
+        mbx = 100
+        mby = 700
+        pygame.draw.circle(WIN, (250, 250, 250), (mbx, mby), 50)
+        WIN.blit(set_button, (mbx-20, mby-10))
         pygame.display.update()
         mousex, mousey = pygame.mouse.get_pos()
         for event in pygame.event.get():
@@ -101,7 +101,6 @@ def settings():
                 quit()
             if event.type == pygame.MOUSEBUTTONDOWN and math.sqrt((mousex - mbx) ** 2 + (mousey - mby) ** 2) < 50:
                 main_menu()
-                
 def main_menu():
     title_font = pygame.font.SysFont("monospace", 50)
     button_font = pygame.font.SysFont("monospace", 15)
@@ -113,10 +112,10 @@ def main_menu():
         set_button = button_font.render("settings", 1, (0, 0, 0))
         WIN.blit(title1, (WIDTH / 2 - title1.get_width() / 2, 350))
         WIN.blit(title2, (WIDTH / 2 - title2.get_width() / 2, 400))
-        pygame.draw.circle(WIN, (250, 250, 250), (100, 700), 50)
-        sbx = 65
-        sby = 690
-        WIN.blit(set_button, (sbx, sby))
+        sbx = 100
+        sby = 700
+        pygame.draw.circle(WIN, (250, 250, 250), (sbx, sby), 50)
+        WIN.blit(set_button, (sbx-35, sby - 10))
         pygame.display.update()
         mousex, mousey = pygame.mouse.get_pos()
         for event in pygame.event.get():
