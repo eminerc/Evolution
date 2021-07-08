@@ -14,7 +14,7 @@ WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Evolution')
 background = pygame.Surface(WIN.get_size())
 background = background.convert()
-background.fill((250, 250, 250))
+background.fill((0, 0, 0))
 pygame.font.init()
 cells = []
 food = []
