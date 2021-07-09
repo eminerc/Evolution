@@ -62,6 +62,8 @@ class Cell:
 
             if (self.x_goal-self.x_cell) == 0:
                 m3 = (self.y_cell - ((self.y_cell + z * ((self.y_goal-self.y_cell)/0.000000001)) - mxy * z1)) / (self.x_cell - (self.x_cell + z - z1))
+            elif (self.x_cell - (self.x_cell + z - z1)) == 0:
+                m3 = (self.y_cell - ((self.y_cell + z * ((self.y_goal-self.y_cell)/(self.x_goal-self.x_cell))) - mxy * z1)) / 0.00000000001
             else:
                 m3 = (self.y_cell - ((self.y_cell + z * ((self.y_goal-self.y_cell)/(self.x_goal-self.x_cell))) - mxy * z1)) / (self.x_cell - (self.x_cell + z - z1))
             z3 = (self.p_radius/2 + (self.s_radius * 20 / 510)) / math.sqrt(1 + m3 * m3)
