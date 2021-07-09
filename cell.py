@@ -30,7 +30,7 @@ class Cell:
         for i in self.memory:
             pygame.draw.circle(surface, (0, 0, 255), (i[0], i[1]), 10, 1)
             pygame.draw.line(surface, (0, 0, 255), [i[0], i[1]], [self.x_cell, self.y_cell], 1)
-        pygame.draw.circle(surface, (100, 100, 255), (self.x_cell, self.y_cell), self.p_radius/2 + (self.s_radius * 20 / 510),
+        pygame.draw.circle(surface, (25, 25, 100), (self.x_cell, self.y_cell), self.p_radius/2 + (self.s_radius * 20 / 510),
                            width=2)
         pygame.draw.circle(surface, (255, 100, 100), (self.x_cell, self.y_cell), 20 + (self.s_radius * 20 / 510), width=2)
         pygame.draw.circle(surface, self.color, (self.x_cell, self.y_cell), 5 + (self.s_radius * 20 / 510))
@@ -45,9 +45,9 @@ class Cell:
             #pygame.draw.circle(surface, (0, 255, 0), (self.x_cell + z, self.y_cell + z * ((self.y_goal-self.y_cell)/(self.x_goal-self.x_cell))), 5)
             mxy = -1 * ((self.x_goal-self.x_cell)/(self.y_goal-self.y_cell))
             x = (self.x_cell + z) + 1 * 1000
-            y = (self.y_cell + z * ((self.y_goal-self.y_cell)/(self.x_goal-self.x_cell))) + mxy * 1000
-            x1 = (self.x_cell + z) - 1 * 1000
-            y1 = (self.y_cell + z * ((self.y_goal-self.y_cell)/(self.x_goal-self.x_cell))) - mxy * 1000
+            #y = (self.y_cell + z * ((self.y_goal-self.y_cell)/(self.x_goal-self.x_cell))) + mxy * 1000
+            #x1 = (self.x_cell + z) - 1 * 1000
+            #y1 = (self.y_cell + z * ((self.y_goal-self.y_cell)/(self.x_goal-self.x_cell))) - mxy * 1000
             #pygame.draw.line(surface, (100, 255, 100), [x, y], [x1, y1], 1)
 
             k = 5
