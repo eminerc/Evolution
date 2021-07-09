@@ -68,10 +68,13 @@ class Cell:
                 m3 = (self.y_cell - ((self.y_cell + z * ((self.y_goal-self.y_cell)/(self.x_goal-self.x_cell))) - mxy * z1)) / (self.x_cell - (self.x_cell + z - z1))
             z3 = (self.p_radius/2 + (self.s_radius * 20 / 510)) / math.sqrt(1 + m3 * m3)
 
-            #pygame.draw.circle(surface, (0, 255, 0), (self.x_cell + z2, self.y_cell + (z2 * m2)), 5)
-            #pygame.draw.circle(surface, (0, 255, 0), (self.x_cell + z3, self.y_cell + (z3 * m3)), 5)
-            #pygame.draw.circle(surface, (0, 255, 0), (self.x_cell - z2, self.y_cell - (z2 * m2)), 5)
-            #pygame.draw.circle(surface, (0, 255, 0), (self.x_cell - z3, self.y_cell - (z3 * m3)), 5)
+            m4 = (self.y_goal - self.y_cell) / (self.x_goal - self.x_cell)
+            z4 = ((self.p_radius/2 + (self.s_radius * 20 / 510)) - 1) / math.sqrt(1 + m4 * m4)
+
+            m5 = -1 / m4
+            z5 = ((self.p_radius/2 + (self.s_radius * 20 / 510)) - 1) / math.sqrt(1 + m5 * m5)
+
+            points1 = [[self.x_cell - z5, self.y_cell - (z5 * m5)], [self.x_cell - z4, self.y_cell - (z4 * m4)], [self.x_cell + z5, self.y_cell + (z5 * m5)], [self.x_cell + z4, self.y_cell + (z4 * m4)]]
 
             points = [[self.x_cell + z2, self.y_cell + (z2 * m2), 0], [self.x_cell + z3, self.y_cell + (z3 * m3), 0], [self.x_cell - z2, self.y_cell - (z2 * m2), 0], [self.x_cell - z3, self.y_cell - (z3 * m3), 0]]
 
@@ -82,6 +85,12 @@ class Cell:
 
             pygame.draw.line(surface, (100, 100, 255), [self.x_cell, self.y_cell], [points[0][0], points[0][1]], 2)
             pygame.draw.line(surface, (100, 100, 255), [self.x_cell, self.y_cell], [points[1][0], points[1][1]], 2)
+
+            for x in points1:
+                if x[1] - self.y_cell < ((self.y_cell-points[1][1])/(self.x_cell-points[1][0])) * (x[0] - self.x_cell) and x[1] - self.y_cell > ((self.y_cell-points[0][1])/(self.x_cell-points[0][0])) * (x[0] - self.x_cell) and math.sqrt((x[0] - self.x_cell) ** 2 + (x[1] - self.y_cell) ** 2) < self.p_radius/2 + (self.s_radius * 20 / 255):
+                    pygame.draw.circle(surface, (75, 75, 75), (x[0], x[1]), 10)
+                else:
+                    pygame.draw.circle(surface, (75, 75, 75), (x[0], x[1]), 10, 2)
 
             #pygame.draw.circle(surface, (0, 255, 0), (points[0][0], points[0][1]), 5)
             #pygame.draw.circle(surface, (0, 255, 0), (points[1][0], points[1][1]), 5)
