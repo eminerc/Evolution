@@ -60,7 +60,10 @@ class Cell:
             m2 = (self.y_cell - ((self.y_cell + z * ((self.y_goal-self.y_cell)/(self.x_goal-self.x_cell))) + mxy * z1)) / (self.x_cell - (self.x_cell + z + z1))
             z2 = (self.p_radius/2 + (self.s_radius * 20 / 510)) / math.sqrt(1 + m2 * m2)
 
-            m3 = (self.y_cell - ((self.y_cell + z * ((self.y_goal-self.y_cell)/(self.x_goal-self.x_cell))) - mxy * z1)) / (self.x_cell - (self.x_cell + z - z1))
+            if (self.x_goal-self.x_cell) == 0:
+                m3 = (self.y_cell - ((self.y_cell + z * ((self.y_goal-self.y_cell)/0.000000001)) - mxy * z1)) / (self.x_cell - (self.x_cell + z - z1))
+            else:
+                m3 = (self.y_cell - ((self.y_cell + z * ((self.y_goal-self.y_cell)/(self.x_goal-self.x_cell))) - mxy * z1)) / (self.x_cell - (self.x_cell + z - z1))
             z3 = (self.p_radius/2 + (self.s_radius * 20 / 510)) / math.sqrt(1 + m3 * m3)
 
             #pygame.draw.circle(surface, (0, 255, 0), (self.x_cell + z2, self.y_cell + (z2 * m2)), 5)
