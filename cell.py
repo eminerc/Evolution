@@ -83,8 +83,15 @@ class Cell:
 
             points = sorted(points, key=lambda x: x[2])
 
+            setting_font = pygame.font.SysFont("monospace", 20)
+
             pygame.draw.line(surface, (100, 100, 255), [self.x_cell, self.y_cell], [points[0][0], points[0][1]], 2)
+            pygame.draw.circle(surface, (255, 0, 255), (points[0][0], points[0][1]), 10)
             pygame.draw.line(surface, (100, 100, 255), [self.x_cell, self.y_cell], [points[1][0], points[1][1]], 2)
+            pygame.draw.circle(surface, (0, 255, 0), (points[1][0], points[1][1]), 10)
+
+            # 0 = purple
+            # 1 = green
 
             for x in points1:
                 if math.sqrt((x[0] - self.x_cell) ** 2 + (x[1] - self.y_cell) ** 2) < self.p_radius/2 + (self.s_radius * 20 / 255):
