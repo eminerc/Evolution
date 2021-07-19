@@ -50,7 +50,7 @@ class Cell:
             #y1 = (self.y_cell + z * ((self.y_goal-self.y_cell)/(self.x_goal-self.x_cell))) - mxy * 1000
             #pygame.draw.line(surface, (100, 255, 100), [x, y], [x1, y1], 1)
 
-            k = 5
+            k = 10
 
             z1 = k / math.sqrt(1 + (-1 * ((self.x_goal - self.x_cell)/(self.y_goal - self.y_cell))) * (-1 * ((self.x_goal - self.x_cell)/(self.y_goal - self.y_cell))))
 
@@ -190,7 +190,7 @@ class Cell:
                 mxy = -1 * ((self.x_goal-self.x_cell)/(self.y_goal-self.y_cell))
                 #x = (self.x_cell + z) + 1 * 1000
 
-                k = 5
+                k = 10
 
                 z1 = k / math.sqrt(1 + (-1 * ((self.x_goal - self.x_cell)/(self.y_goal - self.y_cell))) * (-1 * ((self.x_goal - self.x_cell)/(self.y_goal - self.y_cell))))
 
@@ -296,7 +296,7 @@ class Cell:
                     df.append([math.sqrt((i.x_food - self.x_cell) ** 2 + (i.y_food - self.y_cell) ** 2), i])
                 for i in self.memory[:]:
                     if math.sqrt((i[0] - self.x_cell) ** 2 + (i[1] - self.y_cell) ** 2) <= self.p_radius/2 + (
-                            self.s_radius * 20 / 510):
+                            self.s_radius * 20 / 510) and (scope_check([i[0], i[1]]) or (i[0] == self.x_cell and i[1] == self.y_cell)):
                         self.memory.remove(i)
                 for i in df:
                     pygame.draw.circle(surface, (0, 255, 0), (i[1].x_food, i[1].y_food), 10)
