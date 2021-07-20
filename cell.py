@@ -217,26 +217,22 @@ class Cell:
                         if self.y_goal > self.y_cell:
                             if abs(((self.y_cell-points[1][1])/(self.x_cell-points[1][0]))) < abs(((self.y_cell-points[0][1])/(self.x_cell-points[0][0]))):
                                 if x[1] - self.y_cell > ((self.y_cell-points[1][1])/(self.x_cell-points[1][0])) * (x[0] - self.x_cell) and x[1] - self.y_cell < ((self.y_cell-points[0][1])/(self.x_cell-points[0][0])) * (x[0] - self.x_cell):
-                                    pygame.draw.circle(surface, (0, 255, 0), (x[0], x[1]), 15, 1)
                                     return True
                                 else:
                                     return False
                             else:
                                 if x[1] - self.y_cell < ((self.y_cell-points[1][1])/(self.x_cell-points[1][0])) * (x[0] - self.x_cell) and x[1] - self.y_cell > ((self.y_cell-points[0][1])/(self.x_cell-points[0][0])) * (x[0] - self.x_cell):
-                                    pygame.draw.circle(surface, (0, 255, 0), (x[0], x[1]), 15, 1)
                                     return True
                                 else:
                                     return False
                         else:
                             if abs(((self.y_cell-points[1][1])/(self.x_cell-points[1][0]))) > abs(((self.y_cell-points[0][1])/(self.x_cell-points[0][0]))):
                                 if x[1] - self.y_cell > ((self.y_cell-points[1][1])/(self.x_cell-points[1][0])) * (x[0] - self.x_cell) and x[1] - self.y_cell < ((self.y_cell-points[0][1])/(self.x_cell-points[0][0])) * (x[0] - self.x_cell):
-                                    pygame.draw.circle(surface, (0, 255, 0), (x[0], x[1]), 15, 1)
                                     return True
                                 else:
                                     return False
                             else:
                                 if x[1] - self.y_cell < ((self.y_cell-points[1][1])/(self.x_cell-points[1][0])) * (x[0] - self.x_cell) and x[1] - self.y_cell > ((self.y_cell-points[0][1])/(self.x_cell-points[0][0])) * (x[0] - self.x_cell):
-                                    pygame.draw.circle(surface, (0, 255, 0), (x[0], x[1]), 15, 1)
                                     return True
                                     #print("Four Slopes: " + str((self.y_cell-points[1][1])/(self.x_cell-points[1][0])) + " " + str((self.y_cell-points[0][1])/(self.x_cell-points[0][0])))
                                 else:
@@ -244,14 +240,12 @@ class Cell:
                     elif self.y_goal > self.y_cell:
                         if x[1] - self.y_cell > ((self.y_cell-points[1][1])/(self.x_cell-points[1][0])) * (x[0] - self.x_cell) and x[1] - self.y_cell > ((self.y_cell-points[0][1])/(self.x_cell-points[0][0])) * (x[0] - self.x_cell):
                             #x[1] - self.y_cell < ((self.y_cell-points[1][1])/(self.x_cell-points[1][0])) * (x[0] - self.x_cell) and x[1] - self.y_cell < ((self.y_cell-points[0][1])/(self.x_cell-points[0][0])) * (x[0] - self.x_cell)
-                            pygame.draw.circle(surface, (0, 255, 0), (x[0], x[1]), 15, 1)
                             return True
                         else:
                             return False
                     else:
                         if x[1] - self.y_cell < ((self.y_cell-points[1][1])/(self.x_cell-points[1][0])) * (x[0] - self.x_cell) and x[1] - self.y_cell < ((self.y_cell-points[0][1])/(self.x_cell-points[0][0])) * (x[0] - self.x_cell):
                             #x[1] - self.y_cell < ((self.y_cell-points[1][1])/(self.x_cell-points[1][0])) * (x[0] - self.x_cell) and x[1] - self.y_cell < ((self.y_cell-points[0][1])/(self.x_cell-points[0][0])) * (x[0] - self.x_cell)
-                            pygame.draw.circle(surface, (0, 255, 0), (x[0], x[1]), 15, 1)
                             return True
                         else:
                             return False
@@ -299,7 +293,6 @@ class Cell:
                             self.s_radius * 20 / 510) and (scope_check([i[0], i[1]]) or (i[0] == self.x_cell and i[1] == self.y_cell)):
                         self.memory.remove(i)
                 for i in df:
-                    pygame.draw.circle(surface, (0, 255, 0), (i[1].x_food, i[1].y_food), 10)
                     if i[0] <= self.p_radius/2 + (self.s_radius * 20 / 510) and scope_check([i[1].x_food, i[1].y_food]):
                         self.memory.append([i[1].x_food, i[1].y_food, 0])
                 df = sorted(df, key=lambda x: x[0])
