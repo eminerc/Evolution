@@ -226,7 +226,7 @@ class Cell:
                 if dc[0][0] < 1:
                     dc[0][1].cell_state = 0
                     self.food_count += dc[0][1].food_count
-            else:
+            elif self.x_goal == self.x_cell and self.y_goal == self.y_cell:
                 self.x_goal = random.randint(1, surface_width)
                 self.y_goal = random.randint(1, surface_height)
 
