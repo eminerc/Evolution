@@ -18,6 +18,7 @@ background.fill((0, 0, 0))
 pygame.font.init()
 cells = []
 food = []
+set_time = 60
 
 # Functions
 def generate_food():
@@ -29,20 +30,26 @@ def generate_food():
 def main():
     run = True
     generate_food()
-    for x in range(10):
+    for x in range(20):
         cells.append(
             Cell(127.5, 127.5, 127.5, 127.5, random.randint(1, WIDTH), random.randint(1, HEIGHT), random.randint(1, WIDTH),
-                 random.randint(1, HEIGHT), 30, 0, 0, 1, 0, []))
+                 random.randint(1, HEIGHT), random.randint(1, 2), 0, 0, 1, 0, []))
 
     time_count = 0
 
     def redraw_window():
+        average_font = pygame.font.SysFont("monospace", 20)
+        all_averages = [0, 0, 0, 0]
         # Draw background
         WIN.blit(background, (0, 0))
         # Draw text (averages for all traits will get drawn in the left corner of the window)
         # Draw food and cells on the screen
         for i in food:
             i.draw_food(WIN)
+        for cell in cells:
+            cell.find_goal(cells, food, WIN, WIDTH, HEIGHT)
+        for cell in cells:
+            cell.go_goal()
         for cell in cells:
             cell.draw_cell(WIN)
             cell.life_time += 1
@@ -54,16 +61,28 @@ def main():
             if cell.cell_state == 0:
                 food.append(Food(cell.x_cell, cell.y_cell))
                 cells.remove(cell)
-        for cell in cells:
-            cell.move(cells, food, WIN, WIDTH, HEIGHT)
-
             cell.reproduce(cells, WIDTH, HEIGHT)
+
+            all_averages[0] += cell.s_radius
+            all_averages[1] += cell.speed
+            all_averages[2] += cell.p_radius
+            all_averages[3] += cell.reproduction_rate
+        all_averages[:] = [round(x / len(cells)) for x in all_averages]
+        sr_average = average_font.render("Size Radius :" + str(all_averages[0]), 1, (250, 250, 250))
+        s_average = average_font.render("Speed :" + str(all_averages[1]), 1, (250, 250, 250))
+        pr_average = average_font.render("Perception Radius :" + str(all_averages[2]), 1, (250, 250, 250))
+        rr_average = average_font.render("Reproduction Rate :" + str(all_averages[3]), 1, (250, 250, 250))
+        WIN.blit(sr_average, (20, 20))
+        WIN.blit(s_average, (20, 40))
+        WIN.blit(pr_average, (20, 60))
+        WIN.blit(rr_average, (20, 80))
         # Display update
         pygame.display.update()
 
+
     while run:
         time_count += 1
-        if time_count == 10000:
+        if time_count == 10 * set_time:
             generate_food()
             time_count = 0
 
