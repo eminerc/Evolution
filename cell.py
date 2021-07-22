@@ -351,8 +351,8 @@ class Cell:
             elif m_chance == 2:
                 y = True
                 while y:
-                    new_p = self.speed + change
-                    new_rr = self.s_radius - change
+                    new_p = self.p_radius + change
+                    new_rr = self.reproduction_rate - change
                     if new_p >= 0 and new_p <= 255 and new_rr >= 0 and new_rr <= 255:
                         y = False
                     else:
