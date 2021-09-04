@@ -3,6 +3,10 @@ import pygame
 import random
 import math
 
+from datetime import datetime
+
+from pygame.time import set_timer
+
 # Imports food and cell classes
 from food import Food
 from cell import Cell
@@ -18,7 +22,7 @@ background.fill((0, 0, 0))
 pygame.font.init()
 cells = []
 food = []
-set_time = 60
+set_time = 10
 
 # Functions
 def generate_food():
@@ -27,7 +31,7 @@ def generate_food():
         food.append(Food(random.randint(1, WIDTH), random.randint(1, HEIGHT)))
 
 # Main and menu functions
-def main():
+def main(set_time):
     run = True
     generate_food()
     for x in range(20):
@@ -47,12 +51,12 @@ def main():
         for i in food:
             i.draw_food(WIN)
         for cell in cells:
-            cell.find_goal(cells, food, WIN, WIDTH, HEIGHT)
+            cell.find_goal(cells, food, WIN, WIDTH, HEIGHT, set_time)
         for cell in cells:
-            cell.go_goal()
+            cell.go_goal(set_time)
         for cell in cells:
             cell.draw_cell(WIN)
-            cell.life_time += 1
+            cell.life_time += (set_time * 0.001)
             if cell.life_time >= 5000:
                 if cell.food_count == 0 and cell.c_num == 0:
                     cell.cell_state = 0
@@ -72,17 +76,23 @@ def main():
         s_average = average_font.render("Speed :" + str(all_averages[1]), 1, (250, 250, 250))
         pr_average = average_font.render("Perception Radius :" + str(all_averages[2]), 1, (250, 250, 250))
         rr_average = average_font.render("Reproduction Rate :" + str(all_averages[3]), 1, (250, 250, 250))
+        time = average_font.render("Time :" + str(set_time), 1, (250, 250, 250))
+        food_count = average_font.render("Food :" + str(len(food)), 1, (250, 250, 250))
+        cell_count = average_font.render("Cell :" + str(len(cells)), 1, (250, 250, 250))
         WIN.blit(sr_average, (20, 20))
         WIN.blit(s_average, (20, 40))
         WIN.blit(pr_average, (20, 60))
         WIN.blit(rr_average, (20, 80))
+        WIN.blit(food_count, (20, 120))
+        WIN.blit(cell_count, (20, 140))
+        WIN.blit(time, (20, 160))
         # Display update
         pygame.display.update()
 
 
     while run:
         time_count += 1
-        if time_count == 10 * set_time:
+        if time_count >= (10 * set_time):
             generate_food()
             time_count = 0
 
@@ -92,7 +102,27 @@ def main():
             if event.type == pygame.QUIT:
                 quit()
 
-
+            
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    if set_time - 1 >= 10:
+                        set_time = set_time - 1
+                if event.key == pygame.K_RIGHT:
+                    set_time = set_time + 1
+                if event.key == pygame.K_SPACE:
+                    f = open("storage", "a")
+                    f.write(datetime.today().strftime('%Y-%m-%d-%H:%M:%S') + "\n")
+                    food1 = []
+                    for x in food:
+                        food1.append([x.x_food, x.y_food])
+                    f.write(str(food1) + "\n")
+                    cells1 = []
+                    for x in cells:
+                        cells1.append([x.speed, x.s_radius, x.p_radius, x.reproduction_rate, x.x_cell, x.y_cell, x.x_goal, x.y_goal, x.food_type, x.food_count, x.c_num, x.cell_state, x.life_time, x.memory])
+                    f.write(str(cells1) + "\n")
+                    f.write(str(set_time) + "\n")
+                    f.close()
+            
 def settings():
     setting_font = pygame.font.SysFont("monospace", 20)
     title_font = pygame.font.SysFont("monospace", 50)
@@ -120,7 +150,7 @@ def settings():
                 quit()
             if event.type == pygame.MOUSEBUTTONDOWN and math.sqrt((mousex - mbx) ** 2 + (mousey - mby) ** 2) < 50:
                 main_menu()
-def main_menu():
+def main_menu(set_time):
     title_font = pygame.font.SysFont("monospace", 50)
     button_font = pygame.font.SysFont("monospace", 15)
     run = True
@@ -141,8 +171,8 @@ def main_menu():
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.KEYDOWN:
-                main()
+                main(set_time)
             if event.type == pygame.MOUSEBUTTONDOWN and math.sqrt((mousex - sbx) ** 2 + (mousey - sby) ** 2) < 50:
                 settings()
     pygame.quit()
-main_menu()
+main_menu(set_time)

@@ -33,10 +33,10 @@ class Cell:
         pygame.draw.circle(surface, (25, 25, 100), (self.x_cell, self.y_cell), self.p_radius/2 + (self.s_radius * 20 / 510),
                            width=2)
         pygame.draw.circle(surface, (255, 100, 100), (self.x_cell, self.y_cell), (self.p_radius/2 + (self.s_radius * 20 / 510)) / 2, width=2)
-        if self.food_type != 3:
-            pygame.draw.circle(surface, self.color, (self.x_cell, self.y_cell), 5 + (self.s_radius * 20 / 510))
-        else:
-            pygame.draw.circle(surface, (255, 100, 100), (self.x_cell, self.y_cell), 5 + (self.s_radius * 20 / 510))
+        #if self.food_type != 3:
+        pygame.draw.circle(surface, self.color, (self.x_cell, self.y_cell), 5 + (self.s_radius * 20 / 510))
+        #else:
+            #pygame.draw.circle(surface, (255, 100, 100), (self.x_cell, self.y_cell), 5 + (self.s_radius * 20 / 510))
 
         if self.y_cell != self.y_goal and self.x_cell != self.x_goal:
 
@@ -105,8 +105,7 @@ class Cell:
             pygame.draw.line(surface, (100, 100, 255), [self.x_cell, self.y_cell], [points[1][0], points[1][1]], 2)
             #pygame.draw.circle(surface, (0, 255, 0), (points[1][0], points[1][1]), 10)
 
-    def find_goal(self, cells, food, surface, surface_width, surface_height):
-        set_speed = 60
+    def find_goal(self, cells, food, surface, surface_width, surface_height, set_time):
         def scope_check(x):
             if self.y_cell != self.y_goal and self.x_cell != self.x_goal:
 
@@ -186,16 +185,19 @@ class Cell:
         dc = []
         for i in cells:
             if (i.x_cell, i.y_cell) != (self.x_cell, self.y_cell):
-                dc.append([math.sqrt((i.x_cell - self.x_cell) ** 2 + (i.y_cell - self.y_cell) ** 2), i])
+                dc.append([math.sqrt((i.x_cell - self.x_cell) ** 2 + (i.y_cell - self.y_cell) ** 2), i, math.sqrt((i.x_cell - self.x_cell) ** 2 + (i.y_cell - self.y_cell) ** 2)])
         dc = sorted(dc, key=lambda x: x[0])
         if len(dc) > 0 and dc[0][0] < ((self.p_radius/2 + (self.s_radius * 20 / 510)) / 2) and dc[0][1].s_radius >= self.s_radius:
             x_e, y_e = dc[0][1].x_cell, dc[0][1].y_cell
             #x_goal, y_goal = dc[0][1].x_goal, dc[0][1].y_goal
-            #if aggression == 0 and self.s_radius > dc[0][1].s_radius and dc[0][1].life_time > 0 and self.life_time > 0:
-            #    self.cell_state = 0
+            #if self.s_radius > dc[0][1].s_radius and dc[0][1].life_time > 0 and self.life_time > 0:
+                #self.cell_state = 0
             #else:
             # self.p_radius/2 + (self.s_radius * 20 / 510)
-            m = (self.y_cell - y_e) / (self.x_cell - x_e)
+            try:
+                m = (self.y_cell - y_e) / (self.x_cell - x_e)
+            except:
+                m = (self.y_cell - y_e) / 0.0000001
             z = 20 / math.sqrt(1 + m * m)
 
             if dc[0][1].x_cell < self.x_cell and dc[0][1].y_cell < self.y_cell:
@@ -218,22 +220,106 @@ class Cell:
                 self.x_goal = self.x_cell + self.p_radius
                 self.y_goal = self.y_cell
             """
-        elif self.food_type == 3:
-            if len(dc) > 0 and dc[0][0] < ((self.p_radius / 2 + (self.s_radius * 20 / 510)) / 2) and dc[0][
-                1].s_radius < self.s_radius:
-                self.x_goal = dc[0][1].x_cell
-                self.y_goal = dc[0][1].y_cell
-                if dc[0][0] < 1:
-                    dc[0][1].cell_state = 0
-                    self.food_count += dc[0][1].food_count
-            elif self.x_goal == self.x_cell and self.y_goal == self.y_cell:
-                self.x_goal = random.randint(1, surface_width)
-                self.y_goal = random.randint(1, surface_height)
-
-            if math.sqrt((self.x_goal - self.x_cell) ** 2 + (self.y_goal - self.y_cell) ** 2) <= (
-                    self.speed / set_speed):
-                self.x_cell = self.x_goal
-                self.y_cell = self.y_goal
+        #"""
+        #elif self.food_type == 3:
+            #if len(dc) > 0 and dc[0][0] < ((self.p_radius / 2 + (self.s_radius * 20 / 510)) / 2) and dc[0][
+                #1].s_radius < self.s_radius and dc[0][1].speed < self.speed:
+                #self.x_goal = dc[0][1].x_cell
+                #self.y_goal = dc[0][1].y_cell
+                #if dc[0][0] < 10:
+ #                   #dc[0][1].cell_state = 0
+ #                   #self.food_count += dc[0][1].food_count
+ #           #elif self.x_goal == self.x_cell and self.y_goal == self.y_cell:
+ #               #self.x_goal = random.randint(1, surface_width)
+ #               #self.y_goal = random.randint(1, surface_height)
+#
+ #           if math.sqrt((self.x_goal - self.x_cell) ** 2 + (self.y_goal - self.y_cell) ** 2) <= (
+ #                   self.speed / set_time):
+ #               self.x_cell = self.x_goal
+ #               self.y_cell = self.y_goal
+ #       elif self.food_type == 4:
+ #           all_targets = []
+ #           for x in dc:
+ #               all_targets.append(x)
+#
+ #           df = []
+ #           for i in food:
+ #               df.append([math.sqrt((i.x_food - self.x_cell) ** 2 + (i.y_food - self.y_cell) ** 2), i])
+ #           for i in self.memory[:]:
+ #               if math.sqrt((i[0] - self.x_cell) ** 2 + (i[1] - self.y_cell) ** 2) <= self.p_radius/2 + (
+ #                       self.s_radius * 20 / 510) and (scope_check([i[0], i[1]]) or (i[0] == self.x_cell and i[1] == self.y_cell)):
+ #                   self.memory.remove(i)
+ #           for i in df:
+ #               if i[0] <= self.p_radius/2 + (self.s_radius * 20 / 510) and scope_check([i[1].x_food, i[1].y_food]):
+ #                   self.memory.append([i[1].x_food, i[1].y_food, 0])
+#
+ #           for i in range(len(self.memory)):
+ #                       self.memory[i][2] = math.sqrt(
+ #                           (self.memory[i][0] - self.x_cell) ** 2 + (self.memory[i][1] - self.y_cell) ** 2)
+#
+ #           for x in self.memory:
+ #               all_targets.append(x)
+#
+ #           all_targets = sorted(all_targets, key=lambda x: x[2])
+#
+ #           try:
+ #               all_targets[0][1].self.x = all_targets[0][1].self.x
+ #               if all_targets[0][0] < ((self.p_radius / 2 + (self.s_radius * 20 / 510)) / 2) and all_targets[0][
+ #               1].s_radius < self.s_radius and all_targets[0][1].speed < self.speed:
+ #                   self.x_goal = all_targets[0][1].x_cell
+ #                   self.y_goal = all_targets[0][1].y_cell
+ #                   if all_targets[0][0] < 10:
+ #                       all_targets[0][1].cell_state = 0
+ #                       self.food_count += all_targets[0][1].food_count
+ #                       print("I ate some food!")
+ #               elif self.x_goal == self.x_cell and self.y_goal == self.y_cell:
+ #                   self.x_goal = random.randint(1, surface_width)
+ #                   self.y_goal = random.randint(1, surface_height)
+#
+ #               if math.sqrt((self.x_goal - self.x_cell) ** 2 + (self.y_goal - self.y_cell) ** 2) <= (
+ #                       self.speed / set_time):
+ #                   self.x_cell = self.x_goal
+ #                   self.y_cell = self.y_goal
+ #           except:
+ #               df = []
+ #               if self.x_cell == self.x_goal and self.y_cell == self.y_goal:
+ #                   if len(self.memory) > 0:
+ #                       for i in range(len(self.memory)):
+ #                           self.memory[i][2] = math.sqrt(
+ #                               (self.memory[i][0] - self.x_cell) ** 2 + (self.memory[i][1] - self.y_cell) ** 2)
+ #                       self.memory = sorted(self.memory, key=lambda x: x[2])
+ #                       self.x_goal = self.memory[0][0]
+ #                       self.y_goal = self.memory[0][1]
+ #                   else:
+ #                       self.x_goal = random.randint(1, surface_width)
+ #                       self.y_goal = random.randint(1, surface_height)
+ #               for i in food:
+ #                   df.append([math.sqrt((i.x_food - self.x_cell) ** 2 + (i.y_food - self.y_cell) ** 2), i])
+ #               for i in self.memory[:]:
+ #                   if math.sqrt((i[0] - self.x_cell) ** 2 + (i[1] - self.y_cell) ** 2) <= self.p_radius/2 + (
+ #                           self.s_radius * 20 / 510) and (scope_check([i[0], i[1]]) or (i[0] == self.x_cell and i[1] == self.y_cell)):
+ #                       self.memory.remove(i)
+ #               for i in df:
+ #                   if i[0] <= self.p_radius/2 + (self.s_radius * 20 / 510) and scope_check([i[1].x_food, i[1].y_food]):
+ #                       self.memory.append([i[1].x_food, i[1].y_food, 0])
+ #               df = sorted(df, key=lambda x: x[0])
+ #               for i in food:
+ #                   df.append([math.sqrt((i.x_food - self.x_cell) ** 2 + (i.y_food - self.y_cell) ** 2), i])
+ #               df = sorted(df, key=lambda x: x[0])
+ #               if len(df) > 0:
+ #                   if df[0][0] < self.p_radius/2 + (self.s_radius * 20 / 255) and scope_check([df[0][1].x_food, df[0][1].y_food]):
+ #                       self.x_goal = df[0][1].x_food
+ #                       self.y_goal = df[0][1].y_food
+ #               if math.sqrt((self.x_goal - self.x_cell) ** 2 + (self.y_goal - self.y_cell) ** 2) <= (
+ #                       self.speed / set_time):
+ #                   self.x_cell = self.x_goal
+ #                   self.y_cell = self.y_goal
+ #                   for i in food:
+ #                       if i.x_food == self.x_cell and i.y_food == self.y_cell:
+ #                           food.remove(i)
+ #                           self.food_count += 1
+#
+ #           #print("All Targets : " + str(all_targets))
         else:
             df = []
             if self.x_cell == self.x_goal and self.y_cell == self.y_goal:
@@ -265,7 +351,7 @@ class Cell:
                     self.x_goal = df[0][1].x_food
                     self.y_goal = df[0][1].y_food
             if math.sqrt((self.x_goal - self.x_cell) ** 2 + (self.y_goal - self.y_cell) ** 2) <= (
-                    self.speed / set_speed):
+                    self.speed / set_time):
                 self.x_cell = self.x_goal
                 self.y_cell = self.y_goal
                 for i in food:
@@ -274,18 +360,17 @@ class Cell:
                         self.food_count += 1
 
 
-    def go_goal(self):
-        set_speed = 60
+    def go_goal(self, set_time):
         if self.x_cell == self.x_goal:
             if self.y_goal < self.y_cell:
-                self.y_cell -= (self.speed / set_speed)
+                self.y_cell -= (self.speed / set_time)
             if self.y_goal > self.y_cell:
-                self.y_cell += (self.speed / set_speed)
+                self.y_cell += (self.speed / set_time)
         try:
             slope = ((self.y_cell - self.y_goal) / (self.x_cell - self.x_goal))
         except:
             slope = ((self.y_cell - self.y_goal) / (0.000000000000000000000000001))
-        motion = (self.speed / set_speed) / math.sqrt(1 + slope * slope)
+        motion = (self.speed / set_time) / math.sqrt(1 + slope * slope)
         if math.sqrt(math.pow(self.x_cell - self.x_goal, 2) + math.pow(self.y_cell - self.y_goal, 2)) > math.sqrt(
                 math.pow(self.x_cell + motion - self.x_goal, 2) + math.pow(
                     self.y_cell + motion * slope - self.y_goal,
@@ -314,13 +399,13 @@ class Cell:
             change = random.randint(1, 55)
             if m_chance == 0:
                 new_speed = self.speed
-                new_s = self.s_radius
+                new_p = self.p_radius
             elif m_chance == 1:
                 y = True
                 while y:
                     new_speed = self.speed + change
-                    new_s = self.s_radius - change
-                    if new_speed >= 0 and new_speed <= 255 and new_s >= 0 and new_s <= 255:
+                    new_p = self.p_radius - change
+                    if new_speed >= 0 and new_speed <= 255 and new_p >= 0 and new_p <= 255:
                         y = False
                     else:
                         change -= 1
@@ -328,8 +413,8 @@ class Cell:
                 y = True
                 while y:
                     new_speed = self.speed - change
-                    new_s = self.s_radius + change
-                    if new_speed >= 0 and new_speed <= 255 and new_s >= 0 and new_s <= 255:
+                    new_p = self.p_radius + change
+                    if new_speed >= 0 and new_speed <= 255 and new_p >= 0 and new_p <= 255:
                         y = False
                     else:
                         change -= 1
@@ -337,23 +422,23 @@ class Cell:
             m_chance = random.randint(0, 2)
             change = random.randint(1, 55)
             if m_chance == 0:
-                new_p = self.p_radius
+                new_s = self.s_radius
                 new_rr = self.reproduction_rate
             elif m_chance == 1:
                 y = True
                 while y:
-                    new_p = self.p_radius + change
+                    new_s = self.s_radius + change
                     new_rr = self.reproduction_rate - change
-                    if new_p >= 0 and new_p <= 255 and new_rr >= 0 and new_rr <= 255:
+                    if new_s >= 0 and new_s <= 255 and new_rr >= 0 and new_rr <= 255:
                         y = False
                     else:
                         change -= 1
             elif m_chance == 2:
                 y = True
                 while y:
-                    new_p = self.p_radius + change
+                    new_s = self.s_radius + change
                     new_rr = self.reproduction_rate - change
-                    if new_p >= 0 and new_p <= 255 and new_rr >= 0 and new_rr <= 255:
+                    if new_s >= 0 and new_s <= 255 and new_rr >= 0 and new_rr <= 255:
                         y = False
                     else:
                         change -= 1
