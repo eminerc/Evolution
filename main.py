@@ -22,7 +22,7 @@ background.fill((0, 0, 0))
 pygame.font.init()
 cells = []
 food = []
-set_time = 10
+set_time = 100
 
 # Functions
 def generate_food():
